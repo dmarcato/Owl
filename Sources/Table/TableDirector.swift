@@ -646,7 +646,14 @@ extension TableDirector: UITableViewDataSource, UITableViewDelegate {
 
 	public func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
 		let (model, adapter) = context(forItemAt: indexPath)
-		return (adapter.dispatchEvent(.willSelect, model: model, cell: nil, path: indexPath, params: nil) as? IndexPath) ?? indexPath
+		guard let rowSelection = adapter.dispatchEvent(.willSelect, model: model, cell: nil, path: indexPath, params: nil) as? TableAdapterCellRowSelection else {
+			return indexPath
+		}
+		switch rowSelection {
+		case .none: return nil
+		case .sameRow: return indexPath
+		case let .otherRow(at): return at
+		}
 	}
 
 	public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -666,7 +673,14 @@ extension TableDirector: UITableViewDataSource, UITableViewDelegate {
 
 	public func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
 		let (model, adapter) = context(forItemAt: indexPath)
-		return (adapter.dispatchEvent(.willDeselect, model: model, cell: nil, path: indexPath, params: nil) as? IndexPath)
+		guard let rowSelection = adapter.dispatchEvent(.willDeselect, model: model, cell: nil, path: indexPath, params: nil) as? TableAdapterCellRowSelection else {
+			return indexPath
+		}
+		switch rowSelection {
+		case .none: return nil
+		case .sameRow: return indexPath
+		case let .otherRow(at): return at
+		}
 	}
 
 	public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

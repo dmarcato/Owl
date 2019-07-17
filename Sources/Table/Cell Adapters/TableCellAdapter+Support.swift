@@ -25,6 +25,17 @@ public enum TableAdapterCellAction {
 	case deselectAnimated
 }
 
+/// Row that will be de/selected.
+///
+/// - none: don't de/select any row.
+/// - sameRow: de/select the row where the action happened.
+/// - otherRow: de/select any arbitrary row.
+public enum TableAdapterCellRowSelection {
+	case none
+	case sameRow
+	case otherRow(at: IndexPath)
+}
+
 public extension TableCellAdapter {
 
 	// MARK: - TableAdapter.Event -
@@ -89,10 +100,10 @@ public extension TableCellAdapter {
 		public var shouldSpringLoad: ((Event) -> Bool)? = nil
 		public var tapOnAccessory: ((Event) -> Void)? = nil
 
-		public var willSelect: ((Event) -> IndexPath?)? = nil
+		public var willSelect: ((Event) -> TableAdapterCellRowSelection)? = nil
 		public var didSelect: ((Event) -> TableAdapterCellAction)? = nil
-		public var willDeselect: ((Event) -> IndexPath?)? = nil
-		public var didDeselect: ((Event) -> IndexPath?)? = nil
+		public var willDeselect: ((Event) -> TableAdapterCellRowSelection)? = nil
+		public var didDeselect: ((Event) -> Void)? = nil
 
 		public var willBeginEdit: ((Event) -> Void)? = nil
 		public var didEndEdit: ((Event) -> Void)? = nil
