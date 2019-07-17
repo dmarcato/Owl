@@ -63,7 +63,7 @@ public class TableHeaderFooterAdapter<View: UITableViewHeaderFooterView>: TableH
     
     // MARK: - Helper Function s-
     
-    public func registerHeaderFooterViewForDirector(_ director: TableDirector) -> String {
+    open func registerHeaderFooterViewForDirector(_ director: TableDirector) -> String {
         let id = reusableViewIdentifier//View.reusableViewIdentifier()
         guard director.headerFooterReuseIdentifiers.contains(id) == false else {
             return id
@@ -88,12 +88,12 @@ public class TableHeaderFooterAdapter<View: UITableViewHeaderFooterView>: TableH
         }
     }
     
-    public func dequeueHeaderFooterForDirector(_ director: TableDirector) -> UITableViewHeaderFooterView? {
+    open func dequeueHeaderFooterForDirector(_ director: TableDirector) -> UITableViewHeaderFooterView? {
         return director.table?.dequeueReusableHeaderFooterView(withIdentifier: reusableViewIdentifier)
     }
     
     @discardableResult
-    public func dispatch(_ event: TableSectionEvents, isHeader: Bool, view: UIView?, section: Int) -> Any? {
+    open func dispatch(_ event: TableSectionEvents, isHeader: Bool, view: UIView?, section: Int) -> Any? {
         switch event {
         case .dequeue:
             events.dequeue?(HeaderFooterEvent(header: isHeader, view: view, at: section))

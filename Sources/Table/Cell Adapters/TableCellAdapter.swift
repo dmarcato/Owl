@@ -44,7 +44,7 @@ open class TableCellAdapter<Model: ElementRepresentable, Cell: ReusableViewProto
 
 	// MARK: - Adapter Helpers Functions -
 
-	public func dequeueCell(inTable table: UITableView, at indexPath: IndexPath?) -> UITableViewCell {
+	open func dequeueCell(inTable table: UITableView, at indexPath: IndexPath?) -> UITableViewCell {
 		guard let indexPath = indexPath else {
             let castedCell = modelViewType as! UITableViewCell.Type
 			let cellInstance = castedCell.init()
@@ -53,7 +53,7 @@ open class TableCellAdapter<Model: ElementRepresentable, Cell: ReusableViewProto
         return table.dequeueReusableCell(withIdentifier: reusableViewIdentifier, for: indexPath)
 	}
 
-	public func registerReusableCellViewForDirector(_ director: TableDirector) -> Bool {
+	open func registerReusableCellViewForDirector(_ director: TableDirector) -> Bool {
         let id = reusableViewIdentifier
 		guard director.cellReuseIDs.contains(id) == false else {
 			return false
@@ -84,7 +84,7 @@ open class TableCellAdapter<Model: ElementRepresentable, Cell: ReusableViewProto
 	// MARK: - Supporting Functions -
 
 	@discardableResult
-	public func dispatchEvent(_ kind: TableAdapterEventID, model: Any?, cell: ReusableViewProtocol?, path: IndexPath?, params: Any?...) -> Any? {
+	open func dispatchEvent(_ kind: TableAdapterEventID, model: Any?, cell: ReusableViewProtocol?, path: IndexPath?, params: Any?...) -> Any? {
 		switch kind {
 		case .dequeue:
 			events.dequeue?(TableCellAdapter.Event(item: model, cell: cell, indexPath: path))
